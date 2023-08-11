@@ -8,11 +8,10 @@
 It is an internet based messaging app
 
 ## Concepts used
-1. URLSession to network and make http request
-2. JSON parsing using native encodables and decodables
-3. Swift extensios and protocols
-4. Delegate patterns
-5. Closures and Completion handlers
-6. Dispatch to fetch main thread
+1. integrate third party libraries in your app using Cocoapods and Swift Package Manager.
+2. Firebase for user authentication, registration and login.
+3. Embed View Controllers in a Navigation Controller and understand the navigation stack.
+4. Animation with for loops.
+5. Segues for navigation.
 
 
