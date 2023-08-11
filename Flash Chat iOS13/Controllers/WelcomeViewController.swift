@@ -14,6 +14,17 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleLabel.text = ""
+        let title = "⚡️FlashChat"
+        var indexValue = 0.0
+        for letter in title{
+            
+            Timer.scheduledTimer(withTimeInterval: 0.1*indexValue, repeats: false) { Timer in
+                self.titleLabel.text?.append(letter)
+            }
+            indexValue += 1
+            
+        }
 
        
     }
