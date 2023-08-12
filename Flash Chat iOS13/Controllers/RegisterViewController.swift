@@ -32,7 +32,7 @@ class RegisterViewController: UIViewController {
                     print(e.localizedDescription)
                 }else{
                     self.warningDisplay.text = nil
-                    self.performSegue(withIdentifier: "RegisterToChat", sender: self)
+                    self.performSegue(withIdentifier: K.registerSegue, sender: self)
                 }
             }
             

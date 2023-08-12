@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
                     print(e.localizedDescription)
                     // we can later print it to a label as feedback to the user
                 }else{
-                    self.performSegue(withIdentifier: "LoginToChat", sender: self)
+                    self.performSegue(withIdentifier: K.loginSegue, sender: self)
                 }
             }
             
