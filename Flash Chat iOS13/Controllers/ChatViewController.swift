@@ -16,12 +16,7 @@ class ChatViewController: UIViewController {
     
     let db = Firestore.firestore()
     
-    var message : [Message] = [
-        Message(sender: "hpot@tamu.edu", body: "Hey"),
-        Message(sender: "hpotala@tamu.edu", body: "Hello"),
-        Message(sender: "hpot@tamu.edu", body: "How are you?")
-        
-    ]
+    var message : [Message] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +24,41 @@ class ChatViewController: UIViewController {
         title = K.appName
         navigationItem.hidesBackButton = true
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
+        loadMessage()
 
+    }
+    
+    func loadMessage(){
+        
+        
+        db.collection(K.FStore.collectionName).order(by: K.FStore.dateField).addSnapshotListener { querySnapshot, error in
+            
+            self.message = []
+            if let e = error{
+                print("Following error occurred while loading messages: \(e)")
+            }else{
+                if let snapshotDocuments = querySnapshot?.documents{
+                    for document in snapshotDocuments{
+                        if let messageSender = document.data()[K.FStore.senderField] as? String,
+                           let messageBody = document.data()[K.FStore.bodyField] as? String{
+                            self.message.append(Message(sender: messageSender, body: messageBody))
+                            
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
         if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email{
             db.collection(K.FStore.collectionName).addDocument(
                 data: [K.FStore.senderField: messageSender,
-                       K.FStore.bodyField: messageBody]) { error in
+                       K.FStore.bodyField: messageBody, K.FStore.dateField: Date().timeIntervalSince1970]) { error in
                            if let e = error{
                                print("Error occurred while tyring to save: \(e)")
                            }else{
